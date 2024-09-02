@@ -1,21 +1,26 @@
 package discounts;
 import java.util.*;
+import java.util.TreeMap;
 
 public class Discounts {
+
+	private TreeMap<Integer, Card> cards = new TreeMap<>();
 
 	
 	//R1
 	public int issueCard(String name) {
-	    return -1;
+		Card c = new Card(name);
+		cards.put(c.getId(), c);
+	    return c.getId();
 	}
 	
     public String cardHolder(int cardN) {
-        return null;
+        return cards.get(cardN).getName();
     }
     
 
 	public int nOfCards() {
-	       return -1;
+	       return cards.size();
 
 	}
 	
