@@ -1,10 +1,13 @@
 package discounts;
 import java.util.*;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.List;
 
 public class Discounts {
 
 	private TreeMap<Integer, Card> cards = new TreeMap<>();
+	private TreeMap<String, Product> products = new TreeMap<>();
 
 	
 	//R1
@@ -27,15 +30,21 @@ public class Discounts {
 	//R2
 	public void addProduct(String categoryId, String productId, double price) 
 			throws DiscountsException {
+		if(products.containsKey(productId)) throw new DiscountsException();
+		
+		products.put(productId, new Product(categoryId, productId, price));
 	}
 	
 	public double getPrice(String productId) 
 			throws DiscountsException {
-        return -1.0;
+		if(!products.containsKey(productId)) throw new DiscountsException();
+
+        return products.get(productId).getPrice();
 	}
 
 	public int getAveragePrice(String categoryId) throws DiscountsException {
-        return -1;
+		return (int)Math.round(products.values().stream().filter(p->p.getCategoryId().equals(categoryId))
+		.collect(Collectors.summarizingDouble(Product::getPrice)).getAverage());
 	}
 	
 	//R3
